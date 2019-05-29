@@ -2,7 +2,7 @@
 record the self study path for IOS develop
 
 
-最近在自学开发IOS，记录一下学校路径
+# 最近在自学开发IOS，记录一下学校路径
 
 首先是OC语言学习，参考尼古拉斯赵四的博客，其目录结构已经很清晰。
 https://blog.csdn.net/jiangwei0910410003/article/details/41928347
@@ -16,7 +16,7 @@ https://blog.csdn.net/jiangwei0910410003/article/details/41928347
 内存管理，这部分调试需要关闭ARC，当时在虚拟机中调试没有找到此功能，后来在Mac真机上完成；
 
 
-其次是IOS组件学习，参考了《iOS开发指南  从Hello World到App Store上架  第4版 》这本书的目录，不过其中的一些示例有点描述不太适合操作，
+# 其次是IOS组件学习，参考了《iOS开发指南  从Hello World到App Store上架  第4版 》这本书的目录，不过其中的一些示例有点描述不太适合操作，
 所以会在网上临时搜索相关知识点来进行调试学习，下面罗列一下上传demo中的操作内容：
 1、hello world， 程序员都懂，显示字符串；
 2、界面根视图组件UIView;
