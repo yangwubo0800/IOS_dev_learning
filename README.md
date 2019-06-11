@@ -62,3 +62,21 @@ https://www.jianshu.com/p/5b13960eefa2
 
 16、iOS 开发调试方法
 https://www.cnblogs.com/Leo_wl/p/4423922.html
+
+17、IOS网络访问框架AFNetworking
+https://www.jianshu.com/p/d94cb6b58573
+
+18、wkwebview中 OC和 JS 互相调用
+https://www.jianshu.com/p/0a06a90082d0
+
+19、相机调用
+https://blog.csdn.net/sifenkesi1/article/details/52621771
+注意需要在info.plist中配置声明：
+    <key>NSCameraUsageDescription</key>
+    <string>cameraDesciption</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>photoLibraryDesciption</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>photoLibraryAddUsageDescription</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>microphoneUsageDescription</string>
