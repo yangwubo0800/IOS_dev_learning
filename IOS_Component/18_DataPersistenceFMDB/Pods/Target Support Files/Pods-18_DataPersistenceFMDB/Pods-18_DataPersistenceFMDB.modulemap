@@ -1,0 +1,6 @@
+framework module Pods_18_DataPersistenceFMDB {
+  umbrella header "Pods-18_DataPersistenceFMDB-umbrella.h"
+
+  export *
+  module * { export * }
+}

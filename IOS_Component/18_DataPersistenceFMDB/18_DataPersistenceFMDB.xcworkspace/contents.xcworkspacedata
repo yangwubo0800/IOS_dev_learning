@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:HJPersonModel+CoreDataProperties.h">
+   </FileRef>
+   <FileRef
+      location = "group:HJPersonModel+CoreDataClass.h">
+   </FileRef>
+   <FileRef
+      location = "group:HJPersonModel+CoreDataClass.m">
+   </FileRef>
+   <FileRef
+      location = "group:HJPersonModel+CoreDataProperties.m">
+   </FileRef>
+   <FileRef
+      location = "group:18_DataPersistenceFMDB.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>
