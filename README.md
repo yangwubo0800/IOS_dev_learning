@@ -85,3 +85,16 @@ https://blog.csdn.net/sifenkesi1/article/details/52621771
     <string>photoLibraryAddUsageDescription</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>microphoneUsageDescription</string>
+
+20、定位功能
+
+https://www.jianshu.com/p/a8717e8bd397
+
+注意需要在info.plist中配置声明：
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>LocationWhenInUseUsageDescription</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>LocationAlwaysUsageDescription</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>LocationAlwaysAndWhenInUseUsageDescription</string>
