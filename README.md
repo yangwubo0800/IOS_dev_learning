@@ -98,3 +98,9 @@ https://www.jianshu.com/p/a8717e8bd397
     <string>LocationAlwaysUsageDescription</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>LocationAlwaysAndWhenInUseUsageDescription</string>
+
+21、获取手机唯一标识
+
+https://www.jianshu.com/p/faa4854ce180
+
+苹果已经将获取真正的IMEI接口屏蔽，这里采用的方案为应用自己生成uuid,然后存入系统keychain中，每次读取都能返回相同结果来标识手机，但是据说系统升级会改变，没有测试过。demo中将原作者的逻辑进行了部分修改，即只需要提供读取接口，在读取接口中做第一次存储的逻辑。
