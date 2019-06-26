@@ -23,7 +23,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // controller
-    WebviewController *vc = [[WebviewController alloc] init];
+    WebviewController *vc = [WebviewController shareInstance] ;
     
     //navigate controller
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];

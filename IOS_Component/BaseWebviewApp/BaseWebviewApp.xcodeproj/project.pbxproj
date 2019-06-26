@@ -11,6 +11,8 @@
 		FE074C5022AE557100737889 /* webRefreshButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE074C4D22AE557100737889 /* webRefreshButton@2x.png */; };
 		FE074C5122AE557100737889 /* webRefreshButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE074C4E22AE557100737889 /* webRefreshButton@3x.png */; };
 		FE074C5222AE557100737889 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = FE074C4F22AE557100737889 /* test.html */; };
+		FE074C9322B07FCB00737889 /* CameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE074C9222B07FCB00737889 /* CameraController.m */; };
+		FE074C9622B1D53200737889 /* HWScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE074C9522B1D53200737889 /* HWScanViewController.m */; };
 		FE161D2422A0CB0300A32148 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE161D2322A0CB0300A32148 /* AppDelegate.m */; };
 		FE161D2722A0CB0300A32148 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE161D2622A0CB0300A32148 /* ViewController.m */; };
 		FE161D2A22A0CB0300A32148 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE161D2822A0CB0300A32148 /* Main.storyboard */; };
@@ -20,6 +22,13 @@
 		FE161D3C22A0CB0400A32148 /* BaseWebviewAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE161D3B22A0CB0400A32148 /* BaseWebviewAppTests.m */; };
 		FE161D4722A0CB0400A32148 /* BaseWebviewAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE161D4622A0CB0400A32148 /* BaseWebviewAppUITests.m */; };
 		FE19061722A8FD3700216179 /* WebviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE19061622A8FD3700216179 /* WebviewController.m */; };
+		FE1D44D122B23B8600B4F1BA /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44D022B23B8600B4F1BA /* LocationController.m */; };
+		FE1D44D422B32F0500B4F1BA /* LZKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44D322B32F0500B4F1BA /* LZKeychain.m */; };
+		FE1D44DE22B3830A00B4F1BA /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44D622B3830A00B4F1BA /* WebViewJavascriptBridgeBase.m */; };
+		FE1D44DF22B3830A00B4F1BA /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44D722B3830A00B4F1BA /* WKWebViewJavascriptBridge.m */; };
+		FE1D44E022B3830A00B4F1BA /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44D822B3830A00B4F1BA /* WebViewJavascriptBridge.m */; };
+		FE1D44E122B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44DB22B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m */; };
+		FEB4BFD322C2131B00787958 /* checkNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4BFD222C2131B00787958 /* checkNetwork.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,10 @@
 		FE074C4D22AE557100737889 /* webRefreshButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webRefreshButton@2x.png"; sourceTree = "<group>"; };
 		FE074C4E22AE557100737889 /* webRefreshButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webRefreshButton@3x.png"; sourceTree = "<group>"; };
 		FE074C4F22AE557100737889 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		FE074C9122B07FCB00737889 /* CameraController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
+		FE074C9222B07FCB00737889 /* CameraController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraController.m; sourceTree = "<group>"; };
+		FE074C9422B1D53200737889 /* HWScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWScanViewController.h; sourceTree = "<group>"; };
+		FE074C9522B1D53200737889 /* HWScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWScanViewController.m; sourceTree = "<group>"; };
 		FE161D1F22A0CB0300A32148 /* BaseWebviewApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaseWebviewApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE161D2222A0CB0300A32148 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FE161D2322A0CB0300A32148 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -62,6 +75,20 @@
 		FE161D4822A0CB0400A32148 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE19061522A8FD3700216179 /* WebviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebviewController.h; sourceTree = "<group>"; };
 		FE19061622A8FD3700216179 /* WebviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebviewController.m; sourceTree = "<group>"; };
+		FE1D44CF22B23B8600B4F1BA /* LocationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
+		FE1D44D022B23B8600B4F1BA /* LocationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
+		FE1D44D222B32F0500B4F1BA /* LZKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LZKeychain.h; sourceTree = "<group>"; };
+		FE1D44D322B32F0500B4F1BA /* LZKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LZKeychain.m; sourceTree = "<group>"; };
+		FE1D44D622B3830A00B4F1BA /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
+		FE1D44D722B3830A00B4F1BA /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		FE1D44D822B3830A00B4F1BA /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		FE1D44D922B3830A00B4F1BA /* WebViewJavascriptBridge_JS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge_JS.h; sourceTree = "<group>"; };
+		FE1D44DA22B3830A00B4F1BA /* WebViewJavascriptBridgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridgeBase.h; sourceTree = "<group>"; };
+		FE1D44DB22B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge_JS.m; sourceTree = "<group>"; };
+		FE1D44DC22B3830A00B4F1BA /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		FE1D44DD22B3830A00B4F1BA /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		FEB4BFD122C2131B00787958 /* checkNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checkNetwork.h; sourceTree = "<group>"; };
+		FEB4BFD222C2131B00787958 /* checkNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = checkNetwork.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +149,8 @@
 		FE161D2122A0CB0300A32148 /* BaseWebviewApp */ = {
 			isa = PBXGroup;
 			children = (
+				FEB4BFD022C212F000787958 /* Utils */,
+				FE1D44D522B3830A00B4F1BA /* WebViewJavascriptBridge */,
 				FE074C4C22AE557100737889 /* Resource_ref */,
 				FE074C4A22ADED2100737889 /* Resource */,
 				FE19061122A8FC9A00216179 /* Webview */,
@@ -134,6 +163,14 @@
 				FE161D2D22A0CB0400A32148 /* LaunchScreen.storyboard */,
 				FE161D3022A0CB0400A32148 /* Info.plist */,
 				FE161D3122A0CB0400A32148 /* main.m */,
+				FE074C9122B07FCB00737889 /* CameraController.h */,
+				FE074C9222B07FCB00737889 /* CameraController.m */,
+				FE074C9422B1D53200737889 /* HWScanViewController.h */,
+				FE074C9522B1D53200737889 /* HWScanViewController.m */,
+				FE1D44CF22B23B8600B4F1BA /* LocationController.h */,
+				FE1D44D022B23B8600B4F1BA /* LocationController.m */,
+				FE1D44D222B32F0500B4F1BA /* LZKeychain.h */,
+				FE1D44D322B32F0500B4F1BA /* LZKeychain.m */,
 			);
 			path = BaseWebviewApp;
 			sourceTree = "<group>";
@@ -163,6 +200,30 @@
 				FE19061622A8FD3700216179 /* WebviewController.m */,
 			);
 			path = Webview;
+			sourceTree = "<group>";
+		};
+		FE1D44D522B3830A00B4F1BA /* WebViewJavascriptBridge */ = {
+			isa = PBXGroup;
+			children = (
+				FE1D44D622B3830A00B4F1BA /* WebViewJavascriptBridgeBase.m */,
+				FE1D44D722B3830A00B4F1BA /* WKWebViewJavascriptBridge.m */,
+				FE1D44D822B3830A00B4F1BA /* WebViewJavascriptBridge.m */,
+				FE1D44D922B3830A00B4F1BA /* WebViewJavascriptBridge_JS.h */,
+				FE1D44DA22B3830A00B4F1BA /* WebViewJavascriptBridgeBase.h */,
+				FE1D44DB22B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m */,
+				FE1D44DC22B3830A00B4F1BA /* WebViewJavascriptBridge.h */,
+				FE1D44DD22B3830A00B4F1BA /* WKWebViewJavascriptBridge.h */,
+			);
+			path = WebViewJavascriptBridge;
+			sourceTree = "<group>";
+		};
+		FEB4BFD022C212F000787958 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				FEB4BFD122C2131B00787958 /* checkNetwork.h */,
+				FEB4BFD222C2131B00787958 /* checkNetwork.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,9 +360,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE074C9622B1D53200737889 /* HWScanViewController.m in Sources */,
+				FE1D44DF22B3830A00B4F1BA /* WKWebViewJavascriptBridge.m in Sources */,
+				FE1D44DE22B3830A00B4F1BA /* WebViewJavascriptBridgeBase.m in Sources */,
+				FEB4BFD322C2131B00787958 /* checkNetwork.m in Sources */,
+				FE1D44E022B3830A00B4F1BA /* WebViewJavascriptBridge.m in Sources */,
+				FE1D44D422B32F0500B4F1BA /* LZKeychain.m in Sources */,
+				FE074C9322B07FCB00737889 /* CameraController.m in Sources */,
 				FE161D2722A0CB0300A32148 /* ViewController.m in Sources */,
 				FE161D3222A0CB0400A32148 /* main.m in Sources */,
+				FE1D44E122B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m in Sources */,
 				FE161D2422A0CB0300A32148 /* AppDelegate.m in Sources */,
+				FE1D44D122B23B8600B4F1BA /* LocationController.m in Sources */,
 				FE19061722A8FD3700216179 /* WebviewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,13 +545,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5XHQ3UAG4W;
 				INFOPLIST_FILE = BaseWebviewApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hnac.BaseWebviewApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BaseWebviewApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -491,13 +563,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5XHQ3UAG4W;
 				INFOPLIST_FILE = BaseWebviewApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hnac.BaseWebviewApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BaseWebviewApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

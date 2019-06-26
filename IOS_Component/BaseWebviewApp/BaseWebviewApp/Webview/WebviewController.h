@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "../WebViewJavascriptBridge/WebViewJavascriptBridge.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WebviewController : UIViewController
+
+// 开源框架https://github.com/marcuswestin/WebViewJavascriptBridge
+@property WebViewJavascriptBridge* bridge;
+
+// 单例模式，提供给某些类需要使用桥来回调JS方法
++(WebviewController *)shareInstance;
 
 @end
 
