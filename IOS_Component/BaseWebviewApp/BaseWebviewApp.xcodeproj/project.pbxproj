@@ -28,7 +28,12 @@
 		FE1D44DF22B3830A00B4F1BA /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44D722B3830A00B4F1BA /* WKWebViewJavascriptBridge.m */; };
 		FE1D44E022B3830A00B4F1BA /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44D822B3830A00B4F1BA /* WebViewJavascriptBridge.m */; };
 		FE1D44E122B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1D44DB22B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m */; };
+		FEAB230922C99062007A5B30 /* RefreshNoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAB230822C99062007A5B30 /* RefreshNoNetworkView.m */; };
 		FEB4BFD322C2131B00787958 /* checkNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4BFD222C2131B00787958 /* checkNetwork.m */; };
+		FEB4BFD822C30F6F00787958 /* UserGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4BFD722C30F6F00787958 /* UserGuideView.m */; };
+		FEB4BFDB22C4652400787958 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4BFDA22C4652400787958 /* StringUtils.m */; };
+		FEB4BFDE22C4685500787958 /* NoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4BFDD22C4685500787958 /* NoNetworkView.m */; };
+		FEB4BFE922C4C28200787958 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB4BFE722C4C28200787958 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,8 +92,18 @@
 		FE1D44DB22B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge_JS.m; sourceTree = "<group>"; };
 		FE1D44DC22B3830A00B4F1BA /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		FE1D44DD22B3830A00B4F1BA /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		FEAB230722C99062007A5B30 /* RefreshNoNetworkView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RefreshNoNetworkView.h; sourceTree = "<group>"; };
+		FEAB230822C99062007A5B30 /* RefreshNoNetworkView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RefreshNoNetworkView.m; sourceTree = "<group>"; };
 		FEB4BFD122C2131B00787958 /* checkNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checkNetwork.h; sourceTree = "<group>"; };
 		FEB4BFD222C2131B00787958 /* checkNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = checkNetwork.m; sourceTree = "<group>"; };
+		FEB4BFD622C30F6F00787958 /* UserGuideView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGuideView.h; sourceTree = "<group>"; };
+		FEB4BFD722C30F6F00787958 /* UserGuideView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGuideView.m; sourceTree = "<group>"; };
+		FEB4BFD922C4652400787958 /* StringUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
+		FEB4BFDA22C4652400787958 /* StringUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
+		FEB4BFDC22C4685500787958 /* NoNetworkView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoNetworkView.h; sourceTree = "<group>"; };
+		FEB4BFDD22C4685500787958 /* NoNetworkView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoNetworkView.m; sourceTree = "<group>"; };
+		FEB4BFE722C4C28200787958 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		FEB4BFE822C4C28200787958 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +164,7 @@
 		FE161D2122A0CB0300A32148 /* BaseWebviewApp */ = {
 			isa = PBXGroup;
 			children = (
+				FEB4BFD522C30F4B00787958 /* UserGuide */,
 				FEB4BFD022C212F000787958 /* Utils */,
 				FE1D44D522B3830A00B4F1BA /* WebViewJavascriptBridge */,
 				FE074C4C22AE557100737889 /* Resource_ref */,
@@ -220,10 +236,27 @@
 		FEB4BFD022C212F000787958 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				FEB4BFE822C4C28200787958 /* Reachability.h */,
+				FEB4BFE722C4C28200787958 /* Reachability.m */,
 				FEB4BFD122C2131B00787958 /* checkNetwork.h */,
 				FEB4BFD222C2131B00787958 /* checkNetwork.m */,
+				FEB4BFD922C4652400787958 /* StringUtils.h */,
+				FEB4BFDA22C4652400787958 /* StringUtils.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		FEB4BFD522C30F4B00787958 /* UserGuide */ = {
+			isa = PBXGroup;
+			children = (
+				FEB4BFD622C30F6F00787958 /* UserGuideView.h */,
+				FEB4BFD722C30F6F00787958 /* UserGuideView.m */,
+				FEB4BFDC22C4685500787958 /* NoNetworkView.h */,
+				FEB4BFDD22C4685500787958 /* NoNetworkView.m */,
+				FEAB230722C99062007A5B30 /* RefreshNoNetworkView.h */,
+				FEAB230822C99062007A5B30 /* RefreshNoNetworkView.m */,
+			);
+			path = UserGuide;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -361,18 +394,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE074C9622B1D53200737889 /* HWScanViewController.m in Sources */,
+				FEB4BFDB22C4652400787958 /* StringUtils.m in Sources */,
 				FE1D44DF22B3830A00B4F1BA /* WKWebViewJavascriptBridge.m in Sources */,
 				FE1D44DE22B3830A00B4F1BA /* WebViewJavascriptBridgeBase.m in Sources */,
 				FEB4BFD322C2131B00787958 /* checkNetwork.m in Sources */,
+				FEB4BFD822C30F6F00787958 /* UserGuideView.m in Sources */,
 				FE1D44E022B3830A00B4F1BA /* WebViewJavascriptBridge.m in Sources */,
 				FE1D44D422B32F0500B4F1BA /* LZKeychain.m in Sources */,
 				FE074C9322B07FCB00737889 /* CameraController.m in Sources */,
 				FE161D2722A0CB0300A32148 /* ViewController.m in Sources */,
+				FEAB230922C99062007A5B30 /* RefreshNoNetworkView.m in Sources */,
 				FE161D3222A0CB0400A32148 /* main.m in Sources */,
 				FE1D44E122B3830A00B4F1BA /* WebViewJavascriptBridge_JS.m in Sources */,
+				FEB4BFDE22C4685500787958 /* NoNetworkView.m in Sources */,
 				FE161D2422A0CB0300A32148 /* AppDelegate.m in Sources */,
 				FE1D44D122B23B8600B4F1BA /* LocationController.m in Sources */,
 				FE19061722A8FD3700216179 /* WebviewController.m in Sources */,
+				FEB4BFE922C4C28200787958 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,15 +584,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5XHQ3UAG4W;
 				INFOPLIST_FILE = BaseWebviewApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BaseWebviewApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.org.BaseWebviewApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -564,15 +605,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5XHQ3UAG4W;
 				INFOPLIST_FILE = BaseWebviewApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BaseWebviewApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.org.BaseWebviewApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

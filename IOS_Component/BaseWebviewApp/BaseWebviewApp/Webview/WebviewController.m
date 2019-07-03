@@ -15,6 +15,10 @@
 #import "../LocationController.h"
 #import "../LZKeychain.h"
 #import "../Utils/checkNetwork.h"
+#import "../Utils/StringUtils.h"
+#import <Foundation/NSURLError.h>
+#import "../UserGuide/NoNetworkView.h"
+#import "../UserGuide/RefreshNoNetworkView.h"
 
 
 //竖屏幕宽高
@@ -69,6 +73,8 @@ static WebviewController *instance = nil;
 //进度条
 @property(nonatomic, strong) UIProgressView *progressView;
 
+//记录当前加载的URL
+@property(nonatomic, strong) NSURL *currentUrl;
 
 @end
 
@@ -97,13 +103,23 @@ static WebviewController *instance = nil;
     return instance;
 }
 
+//提给为网络恢复时重新加载页面使用
+-(void)reloadWebview{
+    
+    if (_webView != nil && _currentUrl != nil) {
+        NSLog(@" reload webview ");
+        NSURLRequest *request =[NSURLRequest requestWithURL:_currentUrl];
+        [_webView loadRequest:request];
+
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     //检查网络
-    //[checkNetwork checkNetworkCanUse];
+    [checkNetwork checkNetworkCanUse];
     
     // 设置导航栏
     //[self setupNavigationItem];
@@ -123,7 +139,12 @@ static WebviewController *instance = nil;
                    forKeyPath:@"title"
                       options:NSKeyValueObservingOptionNew
                       context:nil];
-   
+    //监听URL变化
+    [self.webView addObserver:self
+                  forKeyPath:@"URL"
+                     options:NSKeyValueObservingOptionNew
+                     context:nil];
+    
 }
 
 
@@ -153,6 +174,14 @@ static WebviewController *instance = nil;
         //响应适配html中的title属性，即在weview加载的时候除了读取进度上报，也能将title报上来
         NSLog(@" set naviagtion item tile to %@", _webView.title);
         self.navigationItem.title = _webView.title;
+    }else if([keyPath isEqualToString:@"URL"]
+             && object == _webView){
+        //网页URL
+        NSLog(@"#####NOW URL IS %@", _webView.URL);
+        if (_webView.URL != nil) {
+            self.currentUrl = _webView.URL;
+            NSLog(@" current url is %@", self.currentUrl);
+        }
     }else{
         NSLog(@" observeValueForKeyPath call super method");
         [super observeValueForKeyPath:keyPath
@@ -381,20 +410,26 @@ static WebviewController *instance = nil;
 //        [_webView loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
         
         // 2.创建URL
-//        NSURL *url = [NSURL URLWithString:@"http://www.baidu.com"];
-//        // 3.创建Request
-//        NSURLRequest *request =[NSURLRequest requestWithURL:url];
-//        // 4.加载网页
-//        [_webView loadRequest:request];
         
-        NSLog(@"test load data");
-        NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"webviewJavascriptTest.html" ofType:nil inDirectory:@"Resource"];
-        NSLog(@"test load DATA htmlPath=%@", htmlPath);
-
-        NSData *data = [[NSData alloc] initWithContentsOfFile:htmlPath];
-        NSURL *baseUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle]bundlePath]];
-
-        [_webView loadData:data MIMEType:@"text/html" characterEncodingName:@"UTF-8" baseURL:baseUrl];
+        NSString *path = @"http://www.baidu.com";
+        NSURL *url = [NSURL URLWithString:path];
+        if (url != nil) {
+            self.currentUrl = url;
+            NSLog(@" first time create webview current url is %@", self.currentUrl);
+        }
+        // 3.创建Request
+        NSURLRequest *request =[NSURLRequest requestWithURL:url];
+        // 4.加载网页
+        [_webView loadRequest:request];
+        
+//        NSLog(@"test load data");
+//        NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"webviewJavascriptTest.html" ofType:nil inDirectory:@"Resource"];
+//        NSLog(@"test load DATA htmlPath=%@", htmlPath);
+//
+//        NSData *data = [[NSData alloc] initWithContentsOfFile:htmlPath];
+//        NSURL *baseUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle]bundlePath]];
+//
+//        [_webView loadData:data MIMEType:@"text/html" characterEncodingName:@"UTF-8" baseURL:baseUrl];
         
     }
     return _webView;
@@ -445,8 +480,16 @@ static WebviewController *instance = nil;
 // 页面加载失败时调用
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
     
-    NSLog(@"didFailProvisionalNavigation");
+    NSLog(@"#####didFailProvisionalNavigation error is %@", error);
     [self.progressView setProgress:0.0f animated:NO];
+    NSLog(@" error code is %ld", error.code);
+    if (error != nil) {
+        NSLog(@" show no network UI");
+//        NoNetworkView *nv = [[NoNetworkView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+//        [self.view addSubview:nv];
+        RefreshNoNetworkView *rv = [[RefreshNoNetworkView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        [self.view addSubview:rv];
+    }
 }
 
 // 当内容开始返回时调用
@@ -460,8 +503,8 @@ static WebviewController *instance = nil;
 }
 
 //提交发生错误时调用
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    NSLog(@"didFailNavigation");
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error{
+    NSLog(@"#####didFailNavigation error is %@", error);
     [self.progressView setProgress:0.0f animated:NO];
 }
 
@@ -471,126 +514,154 @@ static WebviewController *instance = nil;
 }
 
 // 根据WebView对于即将跳转的HTTP请求头信息和相关信息来决定是否跳转
-//- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+
+//    NSString * urlStr = navigationAction.request.URL.absoluteString;
+//    NSLog(@"发送跳转请求：%@",urlStr);
+//    //自己定义的协议头
+//    NSString *htmlHeadString = @"github://";
+//    if([urlStr hasPrefix:htmlHeadString]){
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"通过截取URL调用OC" message:@"你想前往我的Github主页?" preferredStyle:UIAlertControllerStyleAlert];
+//        [alertController addAction:([UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
 //
-////    NSString * urlStr = navigationAction.request.URL.absoluteString;
-////    NSLog(@"发送跳转请求：%@",urlStr);
-////    //自己定义的协议头
-////    NSString *htmlHeadString = @"github://";
-////    if([urlStr hasPrefix:htmlHeadString]){
-////        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"通过截取URL调用OC" message:@"你想前往我的Github主页?" preferredStyle:UIAlertControllerStyleAlert];
-////        [alertController addAction:([UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-////
-////        }])];
-////        [alertController addAction:([UIAlertAction actionWithTitle:@"打开" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-////            NSURL * url = [NSURL URLWithString:[urlStr stringByReplacingOccurrencesOfString:@"github://callName_?" withString:@""]];
-////            [[UIApplication sharedApplication] openURL:url];
-////
-////        }])];
-////        [self presentViewController:alertController animated:YES completion:nil];
-////
-////        decisionHandler(WKNavigationActionPolicyCancel);
-////
-////    }else{
-////        decisionHandler(WKNavigationActionPolicyAllow);
-////    }
-//    decisionHandler(WKNavigationActionPolicyAllow);
-//    NSLog(@"decidePolicyForNavigationAction");
+//        }])];
+//        [alertController addAction:([UIAlertAction actionWithTitle:@"打开" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            NSURL * url = [NSURL URLWithString:[urlStr stringByReplacingOccurrencesOfString:@"github://callName_?" withString:@""]];
+//            [[UIApplication sharedApplication] openURL:url];
 //
-//}
+//        }])];
+//        [self presentViewController:alertController animated:YES completion:nil];
 //
-//// 根据客户端受到的服务器响应头以及response相关信息来决定是否可以跳转
-//- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
-////    NSString * urlStr = navigationResponse.response.URL.absoluteString;
-////    NSLog(@"当前跳转地址：%@",urlStr);
-////    //允许跳转
-//    decisionHandler(WKNavigationResponsePolicyAllow);
-//    //不允许跳转
-//    //decisionHandler(WKNavigationResponsePolicyCancel);
-//    NSLog(@"decidePolicyForNavigationResponse");
-//}
+//        decisionHandler(WKNavigationActionPolicyCancel);
 //
-////需要响应身份验证时调用 同样在block中需要传入用户身份凭证
-//- (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler{
-//
-//    //用户身份信息
-////    NSURLCredential * newCred = [[NSURLCredential alloc] initWithUser:@"user123" password:@"123" persistence:NSURLCredentialPersistenceNone];
-////    //为 challenge 的发送方提供 credential
-////    [challenge.sender useCredential:newCred forAuthenticationChallenge:challenge];
-////    completionHandler(NSURLSessionAuthChallengeUseCredential,newCred);
-//    NSLog(@"didReceiveAuthenticationChallenge");
-//
-//}
-//
-////进程被终止时调用
-//- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView{
-//    NSLog(@"webViewWebContentProcessDidTerminate");
-//}
-//
-//
-//#pragma mark -- WKUIDelegate
-//
-///**
-// *  web界面中有弹出警告框时调用
-// *
-// *  @param webView           实现该代理的webview
-// *  @param message           警告框中的内容
-// *  @param completionHandler 警告框消失调用
-// */
-//- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
-//    NSLog(@" runJavaScriptAlertPanelWithMessage ");
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"HTML的弹出框" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-//    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        completionHandler();
-//    }])];
-//    [self presentViewController:alertController animated:YES completion:nil];
-//}
-//
-//// 确认框
-////JavaScript调用confirm方法后回调的方法 confirm是js中的确定框，需要在block中把用户选择的情况传递进去
-//- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
-//    NSLog(@" runJavaScriptConfirmPanelWithMessage ");
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-//    [alertController addAction:([UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        completionHandler(NO);
-//    }])];
-//    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        completionHandler(YES);
-//    }])];
-//    [self presentViewController:alertController animated:YES completion:nil];
-//}
-//
-//// 输入框
-////JavaScript调用prompt方法后回调的方法 prompt是js中的输入框 需要在block中把用户输入的信息传入
-//- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler{
-//    NSLog(@" runJavaScriptTextInputPanelWithPrompt ");
-//
-////    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:prompt message:@"" preferredStyle:UIAlertControllerStyleAlert];
-////
-////    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-////        textField.text = defaultText;
-////    }];
-////    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-////        completionHandler(alertController.textFields[0].text?:@"");
-////    }])];
-////
-////    [self presentViewController:alertController animated:YES completion:nil];
-//
-//    NSLog(@"%@---%@",prompt,defaultText);
-//    //这里就是要返回给JS的返回值, 同步返回的，可以根据prompt来区分实现不同功能
-//    NSString *deviceId = [LZKeychain getDeviceIDInKeychain];
-//    NSLog(@" device ID is %@", deviceId);
-//
-//    completionHandler(deviceId);
-//}
-//
-//// 页面是弹出窗口 _blank 处理
-//- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
-//    NSLog(@" createWebViewWithConfiguration ");
-//    if (!navigationAction.targetFrame.isMainFrame) {
-//        [webView loadRequest:navigationAction.request];
+//    }else{
+//        decisionHandler(WKNavigationActionPolicyAllow);
 //    }
-//    return nil;
-//}
+    decisionHandler(WKNavigationActionPolicyAllow);
+    NSLog(@"decidePolicyForNavigationAction");
+
+}
+
+// 根据客户端受到的服务器响应头以及response相关信息来决定是否可以跳转
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+//    NSString * urlStr = navigationResponse.response.URL.absoluteString;
+//    NSLog(@"当前跳转地址：%@",urlStr);
+//    //允许跳转
+    decisionHandler(WKNavigationResponsePolicyAllow);
+    //不允许跳转
+    //decisionHandler(WKNavigationResponsePolicyCancel);
+    NSLog(@"decidePolicyForNavigationResponse %@", navigationResponse);
+    
+    
+//    if (((NSHTTPURLResponse *)navigationResponse.response).statusCode == 200) {
+//        decisionHandler (WKNavigationResponsePolicyAllow);
+//    }else {
+//        decisionHandler(WKNavigationResponsePolicyCancel);
+//    }
+}
+
+//需要响应身份验证时调用 同样在block中需要传入用户身份凭证
+- (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler{
+
+    //用户身份信息
+    NSURLCredential * newCred = [[NSURLCredential alloc] initWithUser:@"user123" password:@"123" persistence:NSURLCredentialPersistenceNone];
+    //为 challenge 的发送方提供 credential
+    [challenge.sender useCredential:newCred forAuthenticationChallenge:challenge];
+    completionHandler(NSURLSessionAuthChallengeUseCredential,newCred);
+    NSLog(@"didReceiveAuthenticationChallenge");
+
+}
+
+//进程被终止时调用
+- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView{
+    NSLog(@"webViewWebContentProcessDidTerminate");
+}
+
+
+#pragma mark -- WKUIDelegate
+
+/**
+ *  web界面中有弹出警告框时调用
+ *
+ *  @param webView           实现该代理的webview
+ *  @param message           警告框中的内容
+ *  @param completionHandler 警告框消失调用
+ */
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    NSLog(@" runJavaScriptAlertPanelWithMessage ");
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"HTML的弹出框" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler();
+    }])];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+// 确认框
+//JavaScript调用confirm方法后回调的方法 confirm是js中的确定框，需要在block中把用户选择的情况传递进去
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
+    NSLog(@" runJavaScriptConfirmPanelWithMessage ");
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(NO);
+    }])];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(YES);
+    }])];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+// 输入框
+//JavaScript调用prompt方法后回调的方法 prompt是js中的输入框 需要在block中把用户输入的信息传入
+- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler{
+    NSLog(@" runJavaScriptTextInputPanelWithPrompt ");
+
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:prompt message:@"" preferredStyle:UIAlertControllerStyleAlert];
+//
+//    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+//        textField.text = defaultText;
+//    }];
+//    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        completionHandler(alertController.textFields[0].text?:@"");
+//    }])];
+//
+//    [self presentViewController:alertController animated:YES completion:nil];
+
+    NSLog(@"%@---%@",prompt,defaultText);
+    //这里就是要返回给JS的返回值, 同步返回的，可以根据prompt来区分实现不同功能
+    NSString *deviceId = [LZKeychain getDeviceIDInKeychain];
+    NSLog(@" device ID is %@", deviceId);
+
+    completionHandler(deviceId);
+}
+
+// 页面是弹出窗口 _blank 处理
+- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
+    NSLog(@" createWebViewWithConfiguration ");
+    if (!navigationAction.targetFrame.isMainFrame) {
+        [webView loadRequest:navigationAction.request];
+    }
+    return nil;
+}
+
+
+- (void)dealloc{
+    //移除注册的js方法
+    [_bridge removeHandler:@"jsCallWithOutData"];
+    [_bridge removeHandler:@"jsCallWithData"];
+    [_bridge removeHandler:@"jsCallGetUUID"];
+    [_bridge removeHandler:@"jsCallTakePhoto"];
+    [_bridge removeHandler:@"jsCallRecordVideo"];
+    [_bridge removeHandler:@"jsCallScanQRCode"];
+    [_bridge removeHandler:@"jsCallLocate"];
+    
+    //移除观察者
+    [_webView removeObserver:self
+                  forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+    [_webView removeObserver:self
+                  forKeyPath:NSStringFromSelector(@selector(title))];
+    [_webView removeObserver:self
+                  forKeyPath:@"URL"];
+}
+
 
 @end

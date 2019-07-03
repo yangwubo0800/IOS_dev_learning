@@ -8,8 +8,15 @@
 
 #import "AppDelegate.h"
 #import "Webview/WebviewController.h"
+#import "UserGuide/UserGuideView.h"
+#import "Utils/Reachability.h"
+
+#define MainScreen_width  [UIScreen mainScreen].bounds.size.width//宽
+#define MainScreen_height [UIScreen mainScreen].bounds.size.height//高
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) Reachability *reachability;
 
 @end
 
@@ -19,6 +26,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    //监听网络状态变化
+    [self observerNetworkStatus];
+
     //window
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -32,9 +42,91 @@
     self.window.rootViewController = nc;
     [self.window makeKeyAndVisible];
     
+    // add user guide view
+    [self addUserGuideView];
+    
     return YES;
 }
 
+
+-(void)addUserGuideView{
+    /**
+     可以在这里进行一个判断的设置，如果是app第一次启动就加载启动页，如果不是，则直接进入首页
+     **/
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"everLaunched"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+    }
+    else{
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+        // 这里判断是否第一次
+        
+        UserGuideView *hvc = [[UserGuideView alloc]initWithFrame:CGRectMake(0, 0, MainScreen_width, MainScreen_height)];
+        
+        [self.window.rootViewController.view addSubview:hvc];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            hvc.frame = CGRectMake(0, 0, MainScreen_width, MainScreen_height);
+            
+        }];
+        
+    }
+}
+
+//监听网络状态变化
+-(void) observerNetworkStatus{
+    // 设置网络检测的站点
+    NSString *remoteHostName = @"www.apple.com";
+    //注册监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    self.reachability = [Reachability reachabilityWithHostName:remoteHostName];
+    [self.reachability startNotifier];
+    [self updateInterfaceWithReachability:self.reachability];
+}
+
+/*!
+ * Called by Reachability whenever status changes.
+ */
+- (void) reachabilityChanged:(NSNotification *)note
+{
+    Reachability* curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+    [self updateInterfaceWithReachability:curReach];
+}
+
+
+- (void)updateInterfaceWithReachability:(Reachability *)reachability
+{
+    if (reachability == self.reachability)
+    {
+        NetworkStatus netStatus = [reachability currentReachabilityStatus];
+        switch (netStatus)
+        {
+            case NotReachable:   {
+                NSLog(@"没有网络！");
+                break;
+            }
+            case ReachableViaWWAN: {
+                NSLog(@"4G/3G");
+                break;
+            }
+            case ReachableViaWiFi: {
+                NSLog(@"WiFi");
+                break;
+            }
+        }
+    }
+}
+
+
+- (void)dealloc
+{
+    [self.reachability stopNotifier];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -16,8 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 // 开源框架https://github.com/marcuswestin/WebViewJavascriptBridge
 @property WebViewJavascriptBridge* bridge;
 
+
 // 单例模式，提供给某些类需要使用桥来回调JS方法
 +(WebviewController *)shareInstance;
+
+
+//提给为网络恢复时重新加载页面使用
+-(void)reloadWebview;
 
 @end
 
